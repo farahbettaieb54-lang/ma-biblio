@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ma_biblio/data/livres_data.dart';
 import 'package:ma_biblio/main.dart';
 import '../models/livre.dart';
+import '../widgets/livre_card.dart';
+import '../screens/detail_screen.dart';
 
 class CatalogueScreen extends StatelessWidget {
   const CatalogueScreen({super.key});
@@ -26,28 +28,41 @@ class CatalogueScreen extends StatelessWidget {
           SizedBox(
             height: 160,
             child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              itemCount: nouveautes.length,
-              itemBuilder: (context, index) {
-                final livre = nouveautes[index];
-                return Container(
-                  width: 110,
-                  margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(
-                    color: livre.couleur,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Text(
-                      livre.titre,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                );
-              },
+            itemCount: livres.length,
+            itemBuilder: (context, index) {
+            final livre = livres[index];
+             return LivreCard(
+             livre: livre,
+             onTap: () => Navigator.push(
+             context,
+             MaterialPageRoute(builder: (_) => DetailScreen(livre: livre)),
             ),
+     );
+  },
+),
+           // child: ListView.builder(
+            //  scrollDirection: Axis.horizontal,
+             // padding: const EdgeInsets.symmetric(horizontal: 12),
+             // itemCount: nouveautes.length,
+             // itemBuilder: (context, index) {
+              //  final livre = nouveautes[index];
+               // return Container(
+                 // width: 110,
+                 // margin: const EdgeInsets.only(right: 8),
+                 // decoration: BoxDecoration(
+                 //   color: livre.couleur,
+                  //  borderRadius: BorderRadius.circular(12),
+                 // ),
+                  //child: Center(
+                  //  child: Text(
+                     // livre.titre,
+                     // textAlign: TextAlign.center,
+                     // style: const TextStyle(color: Colors.white),
+                  //  ),
+                  //),
+               // );
+             // },
+           // ),
           ),
           const Padding(
             padding: EdgeInsets.all(16),
@@ -64,19 +79,22 @@ class CatalogueScreen extends StatelessWidget {
                   const Divider(indent: 72, height: 1),
             ),
           ),
-          ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: livres.length,
-          itemBuilder: (context, index) => livreTile(livres[index]),
-          separatorBuilder: (context, index) =>
-          const Divider(indent: 72, height: 1),
-          ),
+          //Q2.9
+          //ListView.separated(
+          //shrinkWrap: true,
+          //physics: const NeverScrollableScrollPhysics(),
+          //itemCount: livres.length,
+          //itemBuilder: (context, index) => livreTile(livres[index]),
+          //separatorBuilder: (context, index) =>
+          //const Divider(indent: 72, height: 1),
+          //),
+           //pour une liste courte et de taille connue, intégrée dans une page qui défile déjà
         ],
       ),
     );
   }
 }
+//Q2.5
 // ListView(children: [...]) construit TOUS les widgets d'un coup, même ceux
 // hors écran : 1 000 livres = 1 000 ListTile créés au démarrage, d'où une
 // consommation mémoire élevée et un affichage lent.
